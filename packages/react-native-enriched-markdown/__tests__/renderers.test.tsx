@@ -738,3 +738,26 @@ it('subscribes to a source started by an update render that was thrown away', as
     headers: [],
   });
 });
+
+it('recollects when strikethrough changes, but reuses equivalent flags', () => {
+  const image = () => undefined;
+  const tree = (strikethrough: boolean) => (
+    <EnrichedMarkdownText
+      markdown="~~struck~~"
+      flavor="github"
+      md4cFlags={{ strikethrough }}
+      renderers={{ image }}
+    />
+  );
+  const root = render(tree(false));
+  expect(mockCollect.mock.calls[0]![1]).toEqual(
+    expect.objectContaining({ strikethrough: false })
+  );
+  act(() => root.render(tree(true)));
+  expect(mockCollect).toHaveBeenCalledTimes(2);
+  expect(mockCollect.mock.calls[1]![1]).toEqual(
+    expect.objectContaining({ strikethrough: true })
+  );
+  act(() => root.render(tree(true)));
+  expect(mockCollect).toHaveBeenCalledTimes(2);
+});

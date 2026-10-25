@@ -407,6 +407,11 @@ export interface Md4cFlagsInternal {
    */
   subscript: boolean;
   /**
+   * Enable strikethrough parsing in CommonMark. GitHub flavor always enables it.
+   * @default false
+   */
+  strikethrough: boolean;
+  /**
    * Enable LaTeX math span parsing ($..$ and $$..$$).
    * When disabled, dollar signs are treated as plain text.
    * @default true

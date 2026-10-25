@@ -131,7 +131,7 @@ Markdown flavor. `'commonmark'` (default) renders the whole document as a single
 
 Toggles for md4c's parser extensions; each opts a piece of extra inline syntax in or out. Pass only the flags you want to change; the rest keep their defaults below. Where a flag enables a new inline element, tune its appearance through the matching [style property](/react-native/api-reference/style-properties).
 
-<PropInfo type="Md4cFlags" default="{ underline: false, superscript: false, subscript: false, highlight: false, latexMath: true, hardSoftBreaks: false, preserveBlankLines: false, admonitions: true }" />
+<PropInfo type="Md4cFlags" default="{ underline: false, superscript: false, subscript: false, strikethrough: false, highlight: false, latexMath: true, hardSoftBreaks: false, preserveBlankLines: false, admonitions: true }" />
 
 #### `underline`
 
@@ -149,9 +149,24 @@ When `true`, parses `^text^` as superscript.
 
 <LivePreview src={Md4cSuperscriptSrc} />
 
+#### `strikethrough`
+
+When `true`, enables `~~text~~` strikethrough in CommonMark. Defaults to `false`, meaning no extra opt-in: GitHub flavor always enables strikethrough, even when this flag is `false`. Web continues to parse GFM regardless of this flag.
+
+Use this flag to display strikethrough emitted by `EnrichedMarkdownTextInput` while keeping CommonMark's single text view, cross-block selection, and `numberOfLines` / `ellipsizeMode` support. It does not enable tables or task lists or change the rendering flavor.
+
+```tsx
+<EnrichedMarkdownText
+  markdown="~~Editor output~~"
+  flavor="commonmark"
+  md4cFlags={{ strikethrough: true }}
+  numberOfLines={3}
+/>
+```
+
 #### `subscript`
 
-When `true`, parses `~text~` as subscript. When disabled, `~` means nothing on its own; `~~text~~` is strikethrough, but only under [`flavor="github"`](#flavor) - under `commonmark` the tildes render literally.
+When `true`, parses `~text~` as subscript. When disabled, `~` means nothing on its own; `~~text~~` is strikethrough under [`flavor="github"`](#flavor) or with [`md4cFlags={{ strikethrough: true }}`](/react-native/api-reference/enriched-markdown-text#strikethrough). Otherwise, CommonMark renders the tildes literally.
 
 <PropInfo type="boolean" default="false" />
 

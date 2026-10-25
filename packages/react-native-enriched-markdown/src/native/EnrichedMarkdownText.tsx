@@ -153,6 +153,7 @@ const defaultMd4cFlags: Md4cFlags = {
   underline: false,
   superscript: false,
   subscript: false,
+  strikethrough: false,
   latexMath: true,
   highlight: false,
   hardSoftBreaks: false,
@@ -228,6 +229,7 @@ export const EnrichedMarkdownText = ({
   const underline = md4cFlags.underline ?? false;
   const superscript = md4cFlags.superscript ?? false;
   const subscript = md4cFlags.subscript ?? false;
+  const strikethrough = md4cFlags.strikethrough ?? false;
   const latexMath = md4cFlags.latexMath ?? true;
   const highlight = md4cFlags.highlight ?? false;
   const hardSoftBreaks = md4cFlags.hardSoftBreaks ?? false;
@@ -241,6 +243,7 @@ export const EnrichedMarkdownText = ({
       underline,
       superscript,
       subscript,
+      strikethrough,
       latexMath,
       highlight,
       hardSoftBreaks,
@@ -251,6 +254,7 @@ export const EnrichedMarkdownText = ({
       underline,
       superscript,
       subscript,
+      strikethrough,
       latexMath,
       highlight,
       hardSoftBreaks,
