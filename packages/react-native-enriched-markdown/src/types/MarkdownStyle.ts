@@ -440,12 +440,16 @@ export interface Md4cFlags {
   /**
    * Enable subscript span parsing (~text~).
    * When enabled, single tildes are treated as subscript markers.
-   * Double tildes are strikethrough when the github flavor or strikethrough flag is enabled.
+   * When disabled, single tildes are strikethrough markers if the github flavor
+   * or strikethrough flag is enabled, and plain text otherwise.
+   * Double tildes are strikethrough under the same conditions either way.
    * @default false
    */
   subscript?: boolean;
   /**
-   * Enable strikethrough parsing in CommonMark. GitHub flavor always enables it.
+   * Enable strikethrough parsing in CommonMark, for both ~~text~~ and ~text~.
+   * Single tildes are subscript markers instead when subscript is enabled.
+   * GitHub flavor always enables strikethrough, so this flag is ignored there.
    * @default false
    */
   strikethrough?: boolean;

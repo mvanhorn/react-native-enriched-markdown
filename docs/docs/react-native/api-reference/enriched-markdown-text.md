@@ -12,6 +12,7 @@ import FlavorSrc from '!!raw-loader!@site/src/examples/react-native/api-referenc
 import Md4cUnderlineSrc from '!!raw-loader!@site/src/examples/react-native/api-reference/enriched-markdown-text/Md4cUnderline';
 import Md4cSuperscriptSrc from '!!raw-loader!@site/src/examples/react-native/api-reference/enriched-markdown-text/Md4cSuperscript';
 import Md4cSubscriptSrc from '!!raw-loader!@site/src/examples/react-native/api-reference/enriched-markdown-text/Md4cSubscript';
+import Md4cStrikethroughSrc from '!!raw-loader!@site/src/examples/react-native/api-reference/enriched-markdown-text/Md4cStrikethrough';
 import Md4cHighlightSrc from '!!raw-loader!@site/src/examples/react-native/api-reference/enriched-markdown-text/Md4cHighlight';
 import Md4cLatexMathSrc from '!!raw-loader!@site/src/examples/react-native/api-reference/enriched-markdown-text/Md4cLatexMath';
 import Md4cHardSoftBreaksSrc from '!!raw-loader!@site/src/examples/react-native/api-reference/enriched-markdown-text/Md4cHardSoftBreaks';
@@ -149,28 +150,25 @@ When `true`, parses `^text^` as superscript.
 
 <LivePreview src={Md4cSuperscriptSrc} />
 
-#### `strikethrough`
-
-When `true`, enables `~~text~~` strikethrough in CommonMark. Defaults to `false`, meaning no extra opt-in: GitHub flavor always enables strikethrough, even when this flag is `false`. Web continues to parse GFM regardless of this flag.
-
-Use this flag to display strikethrough emitted by `EnrichedMarkdownTextInput` while keeping CommonMark's single text view, cross-block selection, and `numberOfLines` / `ellipsizeMode` support. It does not enable tables or task lists or change the rendering flavor.
-
-```tsx
-<EnrichedMarkdownText
-  markdown="~~Editor output~~"
-  flavor="commonmark"
-  md4cFlags={{ strikethrough: true }}
-  numberOfLines={3}
-/>
-```
-
 #### `subscript`
 
-When `true`, parses `~text~` as subscript. When disabled, `~` means nothing on its own; `~~text~~` is strikethrough under [`flavor="github"`](#flavor) or with [`md4cFlags={{ strikethrough: true }}`](/react-native/api-reference/enriched-markdown-text#strikethrough). Otherwise, CommonMark renders the tildes literally.
+When `true`, parses `~text~` as subscript. When disabled, `~text~` and `~~text~~` are both strikethrough under [`flavor="github"`](#flavor) or with [`md4cFlags={{ strikethrough: true }}`](#strikethrough). Otherwise, CommonMark renders the tildes literally. Double tildes stay strikethrough when this flag is on.
 
 <PropInfo type="boolean" default="false" />
 
 <LivePreview src={Md4cSubscriptSrc} />
+
+#### `strikethrough`
+
+When `true`, enables strikethrough under `flavor="commonmark"`, for both `~~text~~` and single-tilde `~text~`. If [`subscript`](#subscript) is also on, `~text~` is subscript instead and only `~~text~~` strikes.
+
+Under `flavor="github"` strikethrough is always on, so this flag has no effect there, and setting it to `false` does not turn strikethrough off. The web build always parses GitHub extensions, so it ignores this flag too.
+
+Use this flag to display strikethrough emitted by `EnrichedMarkdownTextInput` while keeping CommonMark's single text view, cross-block selection, and `numberOfLines` / `ellipsizeMode` support. It does not enable tables or task lists or change the rendering flavor.
+
+<PropInfo type="boolean" default="false" />
+
+<LivePreview src={Md4cStrikethroughSrc} unavailable unavailableReason={<>iOS and Android only - the web build always parses GitHub extensions, so there is no strikethrough switch.</>} />
 
 #### `highlight`
 

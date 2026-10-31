@@ -36,7 +36,7 @@ This is the canonical list of everything `flavor="github"` changes. The other pa
 |---|---|
 | **Tables** | `\| col \| col \|`<br />`\| --- \| --- \|` |
 | **Task lists** | `- [x] done`, `- [ ] todo` |
-| **Strikethrough** | `~~text~~` |
+| **Strikethrough** | `~~text~~`, `~text~` |
 
 In `commonmark` these stay literal by default - `~~text~~` renders as tildes and a `| a | b |` line is just text. Strikethrough can be enabled separately with `md4cFlags={{ strikethrough: true }}`. Another parser flag, [`admonitions`](/react-native/api-reference/enriched-markdown-text#admonitions), is on by default but **forced off** under `commonmark`, so `> [!NOTE]` is a GitHub-only callout in practice too.
 
@@ -80,12 +80,12 @@ A second set of inline extensions is toggled independently of the flavor, throug
 - `underline` - `_text_`
 - `superscript` - `^text^`
 - `subscript` - `~text~`
-- `strikethrough` - `~~text~~` (already enabled by GitHub flavor)
+- `strikethrough` - `~~text~~` and `~text~` (already enabled by GitHub flavor, so it has no effect there)
 - `highlight` - `==text==`
 
 <LivePreview src={FlagsSrc} />
 
-To display `~~text~~` emitted by the editor while retaining CommonMark's single text view, line limits, and cross-block selection, set `md4cFlags={{ strikethrough: true }}`. This enables only the parser extension; it does not switch the native rendering flavor or enable tables and task lists. The flag defaults to `false`, which leaves CommonMark unchanged and never disables GitHub strikethrough. Web keeps its always-GFM parsing.
+To display `~~text~~` emitted by the editor while retaining CommonMark's single text view, line limits, and cross-block selection, set `md4cFlags={{ strikethrough: true }}`. This also makes single-tilde `~text~` strike, unless `subscript` is on. It enables only the parser extension; it does not switch the native rendering flavor or enable tables and task lists. The flag defaults to `false`, which leaves CommonMark unchanged and never disables GitHub strikethrough. Web keeps its always-GFM parsing.
 
 The flag set also carries `latexMath` and `admonitions` (both on by default) and the newline options `hardSoftBreaks` and `preserveBlankLines`. See the [`md4cFlags` reference](/react-native/api-reference/enriched-markdown-text#md4cflags) for what each flag enables and its default.
 

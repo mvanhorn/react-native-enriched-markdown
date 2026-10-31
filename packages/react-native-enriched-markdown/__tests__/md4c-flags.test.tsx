@@ -97,7 +97,9 @@ it.each(['commonmark', 'github'] as const)(
       const [view] = root.container.queryAll((instance) =>
         String(instance.type).startsWith('EnrichedMarkdown')
       );
-      expect(view!.props.md4cFlags.strikethrough).toBe(strikethrough ?? false);
+      expect(view!.props.md4cFlags.strikethrough).toBe(
+        flavor === 'commonmark' && (strikethrough ?? false)
+      );
       expect(view!.props.isGFM).toBe(flavor === 'github');
       expect(view!.type).toBe(
         flavor === 'github'
@@ -108,3 +110,25 @@ it.each(['commonmark', 'github'] as const)(
     }
   }
 );
+
+it('keeps the md4cFlags prop stable when strikethrough toggles under github', () => {
+  const root = createRoot({
+    textComponentTypes: ['EnrichedMarkdownNativeComponent'],
+  });
+  const render = (strikethrough: boolean) => {
+    act(() =>
+      root.render(
+        <EnrichedMarkdownText
+          markdown="~~struck~~"
+          flavor="github"
+          md4cFlags={{ strikethrough }}
+        />
+      )
+    );
+    const [view] = root.container.queryAll(
+      (instance) => instance.type === 'EnrichedMarkdownNativeComponent'
+    );
+    return view!.props.md4cFlags;
+  };
+  expect(render(true)).toBe(render(false));
+});

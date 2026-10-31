@@ -94,6 +94,14 @@ int main() {
       }
     }
   }
+  // Single tildes strike as well, unless subscript claims them.
+  for (bool subscript : {false, true}) {
+    strikeFlags.subscript = subscript;
+    auto paragraph = store.parse("the ~draft~ version", strikeFlags, false)->ast->children.at(0);
+    check(paragraph->children.at(1)->type ==
+              (subscript ? Markdown::NodeType::Subscript : Markdown::NodeType::Strikethrough),
+          "a single tilde follows the subscript flag");
+  }
   auto table = store.parse("| A | B |\n|---|---|\n| a | b |", strikeFlags, false)->ast;
   check(table->children.at(0)->type == Markdown::NodeType::Paragraph, "strikethrough does not enable tables");
   auto task = store.parse("- [x] task", strikeFlags, false)->ast->children.at(0)->children.at(0);

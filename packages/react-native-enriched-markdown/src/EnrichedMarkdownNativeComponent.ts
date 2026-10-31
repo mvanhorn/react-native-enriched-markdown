@@ -407,7 +407,8 @@ export interface Md4cFlagsInternal {
    */
   subscript: boolean;
   /**
-   * Enable strikethrough parsing in CommonMark. GitHub flavor always enables it.
+   * Enable strikethrough parsing (~~text~~ and ~text~) in CommonMark.
+   * GitHub flavor always enables it, so this is forced off there.
    * @default false
    */
   strikethrough: boolean;
